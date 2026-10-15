@@ -5,7 +5,7 @@
 **Created:** 2026-10-15T15:04:56Z
 **Status:** open
 **Converged:** no
-**Passes:** 5
+**Passes:** 6
 
 ## Pass 1 — 2026-10-15T15:04:56Z
 
@@ -41,3 +41,10 @@
 - **CLOSED:** G2 (whitespace trim) verified NOT a gap: data.text stores rawText; trim() feeds only the emptiness check
 - **ARTIFACT:** full 18-finding classification against the current head (not the anchored SHAs)
 - **Confidence:** 0.72 → 0.84
+
+## Pass 6 — 2026-10-15T15:23:55Z
+
+- **NEW:** G5: the extraction changes SHIPPED source, so the canonical repo now differs from the reviewed PR tree in src/ — held INTENTIONALLY while a human review is in flight (do not move a reviewed target for a non-functional change). Sync at the next version push: copy src/lib/raycast-schema.ts + src/import-data.tsx into extensions/raycast-import on the fork branch, mark the PR draft first (skill rule 9), then ready.
+- **CLOSED:** G1: canonical repo byte-identical to the reviewed tree (manifest + icon sha256 verified); only dev artifacts (reports/) differ
+- **ARTIFACT:** src/lib/raycast-schema.ts + probes/{schema-guard,hostile-zip,secure-tmp}.ts (36 checks green); build + lint green; v0.4.1 tagged and pushed
+- **Confidence:** 0.84 → 0.90
