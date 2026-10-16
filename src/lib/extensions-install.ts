@@ -111,8 +111,12 @@ export interface InstallReport {
 export async function installExtensions(
 	picks: ExtensionPick[],
 	onProgress?: (done: number, total: number, installed: number, skipped: number, failed: number) => void,
+	/** `destDir` exists so a probe can install into a SANDBOX: without it the only
+	 *  way to exercise this path is against the user's real extension directory,
+	 *  which no test should ever touch. Defaults to the real location. */
+	opts: { destDir?: string } = {},
 ): Promise<InstallReport> {
-	const extDir = extensionsDir();
+	const extDir = opts.destDir ?? extensionsDir();
 	mkdirSync(extDir, { recursive: true });
 	const total = picks.length;
 	let installed = 0;
