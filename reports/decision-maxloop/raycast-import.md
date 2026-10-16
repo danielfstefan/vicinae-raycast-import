@@ -3,9 +3,9 @@
 **Project:** /Users/daniel/.ds/vicinae/extensions/raycast-import
 **Decision:** raycast-import (PR #389) is genuinely ready for the maintainer: every reviewer finding closed against the CURRENT head with evidence, the canonical repo identical to the PR branch, and a durable verification harness that bites.
 **Created:** 2026-10-15T15:04:56Z
-**Status:** open
-**Converged:** no
-**Passes:** 8
+**Status:** converged
+**Converged:** 2026-10-16T15:51:33Z
+**Passes:** 10
 
 ## Pass 1 — 2026-10-15T15:04:56Z
 
@@ -77,3 +77,21 @@ Open dimensions, in value order:
 - **CLOSED:** G7: destDir is now injectable (default unchanged); the sandbox probe proves idempotence against 2 real store extensions — second run: installed=0, skipped=2, 0 new network requests, no duplicate dirs
 - **ARTIFACT:** probes/install-idempotence.ts (13 checks) — 5-probe harness now covers SECURITY-001, SECURITY-003, CORRECTNESS-001 and the install path
 - **Confidence:** 0.95 → 0.97
+
+## Pass 9 — 2026-10-16T15:50:17Z
+
+- **NEW:** G8: the result UI under-warned the one trap that loses data — with snippets AND emoji imported it showed only the emoji line, and no branch ever said that editing a snippet before the restart CLOBBERS the import (stale in-memory list rewrite)
+- **CLOSED:** G8: restartNote() states the danger in all four cases (snippets / snippets+emoji / emoji only / nothing), with the count and the reason; the section title names what the restart is for
+- **ARTIFACT:** result-view fix in src/import-data.tsx; build + lint green
+- **Confidence:** 0.97 → 0.98
+
+## Pass 10 — 2026-10-16T15:51:33Z
+
+- **NEW:** NONE — MANIFEST-001 verified clean: 2 declared commands and exactly 2 entrypoints built; import-background (no-view) is disabledByDefault so it stays out of the palette; single dep @vicinae/api; description 96 chars; icon/author/license valid. The README does not claim quicklinks, which the code only recognises in the schema guard — correct, not an omission.
+- **CLOSED:** -
+- **ARTIFACT:** none
+- **Confidence:** 0.98 → 0.98
+
+## Converged — 2026-10-16T15:51:33Z
+
+9 passes found and closed G1-G8 (canonical-repo divergence, no durable harness, a harness that would fail on other machines, an unprobeable install path, and a result view that under-warned the one data-loss trap). Pass 10 found nothing new across the manifest/shipped surface. Open by design, not by gap: G5 (the schema-guard extraction + the result-view fix differ from the reviewed PR tree) is HELD while a human review is in flight, with the sync command recorded.
