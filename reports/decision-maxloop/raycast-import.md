@@ -5,7 +5,7 @@
 **Created:** 2026-10-15T15:04:56Z
 **Status:** open
 **Converged:** no
-**Passes:** 7
+**Passes:** 8
 
 ## Pass 1 — 2026-10-15T15:04:56Z
 
@@ -70,3 +70,10 @@ Open dimensions, in value order:
    repo differs from the reviewed PR tree in `src/`. Held deliberately while a human
    review is in flight; sync it with the next version push (draft → push → verify →
    ready, skill rule 9) — copy `src/lib/raycast-schema.ts` + `src/import-data.tsx`.
+
+## Pass 8 — 2026-10-16T15:45:01Z
+
+- **NEW:** G7: installExtensions had no injectable destination, so the install path could ONLY be exercised against the user's real extension directory — meaning the documented recovery path ('run the import again') had never been tested
+- **CLOSED:** G7: destDir is now injectable (default unchanged); the sandbox probe proves idempotence against 2 real store extensions — second run: installed=0, skipped=2, 0 new network requests, no duplicate dirs
+- **ARTIFACT:** probes/install-idempotence.ts (13 checks) — 5-probe harness now covers SECURITY-001, SECURITY-003, CORRECTNESS-001 and the install path
+- **Confidence:** 0.95 → 0.97

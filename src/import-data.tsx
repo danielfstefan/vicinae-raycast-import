@@ -1071,6 +1071,24 @@ function ResultList({
 	replace: boolean;
 	emojiImported: number;
 }) {
+	// The snippet store has NO file watcher: a running instance rewrites snippets.json
+	// from its stale in-memory list on any mutation, so editing a snippet before the
+	// restart CLOBBERS the import. State the danger, not just the visibility — and state
+	// it whenever snippets came in, including when emoji came along with them.
+	const restartNote = (): string => {
+		const danger = replace
+			? "Vicinae snippets were replaced."
+			: `${imported.length} snippet${imported.length === 1 ? "" : "s"} imported.`;
+		const snippetAdvice =
+			"Quit and reopen Vicinae BEFORE editing any snippet — a running instance can overwrite the import.";
+		if (imported.length > 0 && emojiImported > 0) {
+			return `${danger} ${snippetAdvice} Emoji frequency and keywords appear after the restart too.`;
+		}
+		if (imported.length > 0) return `${danger} ${snippetAdvice}`;
+		if (emojiImported > 0) return "Emoji frequency + keywords restored. Restart Vicinae to show them.";
+		return "Quit and reopen Vicinae to see the imported data.";
+	};
+
 	return (
 		<List isLoading={false} navigationTitle="Import result">
 			<List.Section title="Imported" subtitle={`${imported.length} of ${totalExported} snippets`}>
@@ -1104,14 +1122,14 @@ function ResultList({
 				)}
 			</List.Section>
 			<List.Section
-				title={emojiImported > 0 ? `Emoji (${emojiImported} merged)` : "⚠️ Restart required"}
-				subtitle={
-					emojiImported > 0
-						? "Emoji frequency + keywords restored. Restart Vicinae to show them."
-						: replace
-							? "Vicinae snippets were replaced. Quit and reopen Vicinae."
-							: "Quit and reopen Vicinae for the imported snippets to appear."
+				title={
+					imported.length > 0
+						? "⚠️ Restart required before editing snippets"
+						: emojiImported > 0
+							? `Emoji (${emojiImported} merged)`
+							: "Nothing imported"
 				}
+				subtitle={restartNote()}
 			>
 				<List.Item
 					title={
